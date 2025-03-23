@@ -1,0 +1,47 @@
+#include<stdio.h>
+int i,j,flag,nb,nf,high,k;
+void worstfit(int b[],int f[],int nd,int nf){
+    for(i=0;i<nf;i++){
+        flag=0;
+        high=0;
+        for(j=0;j<nb;j++){
+            int temp=b[j]-f[i];
+            if(temp>=0){
+                if(high<temp){
+                    k=j;
+                    high=temp;
+                }
+                flag=1;
+            }}
+            if(flag==1){
+            printf("\nfile %d has been put in block %d",f[i],b[k]);
+                b[k]=0;
+            }
+           
+    else{
+        printf("\nfile %d must wait",f[i]);
+    
+}
+}}
+
+
+void main(){
+    printf("enter the number of block");
+    scanf("%d",&nb);
+    int b[nb];
+    printf("enter the number of files");
+    scanf("%d",&nf);
+    int f[nf];
+    printf("enter each blocks in order");
+        for(i=0;i<nb;i++){
+            scanf("%d",&b[i]);
+        }
+    
+    printf("enter each files in order");
+        for(i=0;i<nf;i++){
+            scanf("%d",&f[i]);
+        }
+        
+    
+     worstfit(b, f, nb, nf);  
+}
