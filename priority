@@ -1,0 +1,75 @@
+#include<stdio.h>
+int main(){
+    int n,i,j;
+    printf("Enter the number of process");
+    scanf("%d",&n);
+    if(n<=0){
+        printf("invalid");
+        return 1;
+    }
+    int ar[n],br[n],is_completed[n],prio[n];
+    printf("enter the arival time and burst time and priority");
+    for(i=0;i<n;i++){
+        printf("process %d :",i+1);
+    scanf("%d%d%d",&ar[i],&br[i],&prio[i]);
+    is_completed[i]=0;
+    }
+    int complete=0,curt=0,ct[n],tat[n],wt[n],rt[n];
+    float avg_tat = 0, avg_wt = 0;
+    
+    for(i=0;i<n-1;i++){
+        for(j=i+1;j<n;j++){
+            if(ar[j]<ar[i]){
+                int temp=ar[j];
+                ar[j]=ar[i];
+                ar[i]=temp;
+                
+                temp=br[j];
+                br[j]=br[i];
+                br[i]=temp;
+                
+                 temp=prio[j];
+                prio[j]=prio[i];
+               prio[i]=temp;
+                
+            }
+        }
+    }
+    while(complete<n){
+        int idx=-1;
+        int min_prio=100;
+        for(i=0;i<n;i++){
+            if(ar[i]<=curt && is_completed[i]==0 && min_prio > prio[i]){
+                
+               min_prio=prio[i];
+               idx = i;
+            
+            }
+        }
+        if(idx==-1){
+            curt++;
+        }
+        else{
+         ct[idx]=curt+br[idx];
+         tat[idx]=ct[idx]-ar[idx];
+         wt[idx]=tat[idx]-br[idx];
+         rt[idx]=wt[idx];
+         avg_tat +=tat[idx];
+         avg_wt +=wt[idx];
+         complete++;
+         curt=ct[idx];
+         is_completed[idx]=1;
+        }
+    }
+    
+     avg_wt /= n;
+    avg_tat /= n;
+    printf("\nProcess\t Arrival Time\t Burst Time\t Completion Time\t Waiting Time\t Turnaround Time\t Response Time\n");
+    for (i = 0; i < n; i++) {
+        printf("%d\t\t %d\t\t %d\t\t %d\t\t %d\t\t %d\t\t %d\n", i + 1, ar[i], br[i],
+               ct[i], wt[i], tat[i], rt[i]);
+    }
+    printf("\nAverage Waiting Time: %.2f\n", avg_wt);
+    printf("Average Turnaround Time: %.2f\n", avg_tat);
+    return 0;
+ }
