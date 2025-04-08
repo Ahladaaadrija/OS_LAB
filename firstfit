@@ -1,13 +1,13 @@
 #include <stdio.h>
- First Fit Memory Allocation Program in C
  void firstfit(int f[], int b[], int nb, int nf) {
     int i, j, temp, flag;
     for(i = 0; i < nf; i++) {
         flag = 0;
         for(j = 0; j < nb; j++) {
-            temp = b[j] - f[i];
-            if(temp >= 0) {
+            if(b[j] >= f[i]) {
+                int frag = b[j] - f[i];
                 printf("File %d is put in block of size %d\n", f[i], b[j]);
+                printf("Internal Fragmentation for this block: %d\n", frag);
                 b[j] = 0;
                 flag = 1;
                 break;
