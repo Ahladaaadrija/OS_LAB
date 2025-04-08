@@ -1,39 +1,39 @@
-#include<stdio.h>
-int i,j,flag,nb,nf;
-void worstfit(int b[],int f[],int nd,int nf){
-    for(i=0;i<nf;i++){
-        flag=0;
-        for(j=0;j<nb;j++){
-            int temp=b[j]-f[i];
-            if(temp>=0){
-                 printf("\nfile %d has been put in block %d",f[i],b[j]);
-                b[j]=0;
-                flag=1;
-                break;}
-               }
-    if(flag==0){
-        printf("\nfile %d must wait",f[i]);
-}
-}}
-
-
-void main(){
-    printf("enter the number of block");
-    scanf("%d",&nb);
-    int b[nb];
-    printf("enter the number of files");
-    scanf("%d",&nf);
+#include <stdio.h>
+ First Fit Memory Allocation Program in C
+ void firstfit(int f[], int b[], int nb, int nf) {
+    int i, j, temp, flag;
+    for(i = 0; i < nf; i++) {
+        flag = 0;
+        for(j = 0; j < nb; j++) {
+            temp = b[j] - f[i];
+            if(temp >= 0) {
+                printf("File %d is put in block of size %d\n", f[i], b[j]);
+                b[j] = 0;
+                flag = 1;
+                break;
+            }
+        }
+        if(flag == 0) {
+            printf("File size %d must wait\n", f[i]);
+        }
+    }
+ }
+ int main() {
+    int nb, nf, i;
+    printf("Enter the number of files: ");
+    scanf("%d", &nf);
     int f[nf];
-    printf("enter each blocks in order");
-        for(i=0;i<nb;i++){
-            scanf("%d",&b[i]);
-        }
-    
-    printf("enter each files in order");
-        for(i=0;i<nf;i++){
-            scanf("%d",&f[i]);
-        }
-        
-    
-     worstfit(b, f, nb, nf);  
-}
+    printf("Enter the number of blocks: ");
+    scanf("%d", &nb);
+    int b[nb];
+    printf("Enter the block sizes in order:\n");
+    for(i = 0; i < nb; i++) {
+        scanf("%d", &b[i]);
+    }
+    printf("Enter the file sizes in order:\n");
+    for(i = 0; i < nf; i++) {
+        scanf("%d", &f[i]);
+    }
+    firstfit(f, b, nb, nf);
+    return 0;
+ }
