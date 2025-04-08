@@ -1,47 +1,54 @@
-#include<stdio.h>
-int i,j,flag,nb,nf,high,k;
-void worstfit(int b[],int f[],int nd,int nf){
-    for(i=0;i<nf;i++){
+#include <stdio.h>
+int i,j;
+ void worstfit(int f[], int b[], int nb, int nf) {
+     int flag;
+    for (i = 0; i < nf; i++) {
         flag=0;
-        high=0;
-        for(j=0;j<nb;j++){
-            int temp=b[j]-f[i];
-            if(temp>=0){
-                if(high<temp){
-                    k=j;
-                    high=temp;
-                }
-                flag=1;
-            }}
-            if(flag==1){
-            printf("\nfile %d has been put in block %d",f[i],b[k]);
-                b[k]=0;
+        for (j = 0; j < nb; j++) {
+            if (b[j] >= f[i]) {
+                printf("File of size %d is allocated to block of size %d\n", f[i], b[j]);
+                int frag = b[j] - f[i];
+                printf("Internal Fragmentation for this file: %d\n\n", frag);
+                 b[j] = 0;
+                 flag=1;
+                 break;
             }
-           
-    else{
-        printf("\nfile %d must wait",f[i]);
-    
-}
-}}
-
-
-void main(){
-    printf("enter the number of block");
-    scanf("%d",&nb);
-    int b[nb];
-    printf("enter the number of files");
-    scanf("%d",&nf);
+        }
+        if(flag==0) {
+            printf("File of size %d must wait (no suitable block)\n\n", f[i]);
+    }
+    }
+ }
+ void bubblesort(int b[],int nb){
+     for(i=0;i<nb-1;i++){
+         for(j=i+1;j<nb;j++){
+             if(b[j]>b[i]){
+                 int temp=b[j];
+                 b[j]=b[i];
+                 b[i]=temp;
+             }
+             
+         }
+     }
+ }
+ int main() {
+    int nb, nf;
+    printf("Enter the number of files: ");
+    scanf("%d", &nf);
     int f[nf];
-    printf("enter each blocks in order");
-        for(i=0;i<nb;i++){
-            scanf("%d",&b[i]);
-        }
-    
-    printf("enter each files in order");
-        for(i=0;i<nf;i++){
-            scanf("%d",&f[i]);
-        }
-        
-    
-     worstfit(b, f, nb, nf);  
-}
+    printf("Enter the number of blocks: ");
+    scanf("%d", &nb);
+    int b[nb];
+    printf("Enter the sizes of the blocks:\n");
+    for (int i = 0; i < nb; i++) {
+        scanf("%d", &b[i]);
+    }
+    printf("Enter the sizes of the files:\n");
+    for (int i = 0; i < nf; i++) {
+        scanf("%d", &f[i]);
+    }
+    bubblesort(b,nb);
+    printf("\n--- Allocation Results ---\n");
+    worstfit(f, b, nb, nf);
+    return 0;
+ }
